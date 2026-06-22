@@ -6,13 +6,21 @@ const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
 const bcrypt = require("bcryptjs");
 
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const uri = process.env.MONGODB_URI;
+const { GoogleGenAI } = require("@google/genai");
+
+
 
 // Middleware configuration layers for JSON and PowerShell cURL form parameters
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const ai = new GoogleGenAI({
+  apiKey: process.env.GOOGLE_API_KEY
+});
 
 let mongoClient;
 let db;
@@ -30,6 +38,53 @@ async function connectToMongo() {
     process.exit(1);
   }
 }
+
+
+// AI INTERGRATION
+app.post("/ask-ai", authenticateBase64, async (req, res) => {
+
+  try {
+
+    const { message } = req.body;
+    if(!message){
+      return res.status(400).json({
+
+        error: "Please provide a message"
+        
+      });
+    }
+
+    const response = await ai.models.generateContent({
+
+      model: "gemini-2.5-flash",
+
+      contents: message
+
+    });
+
+    res.json({
+
+      reply: response.text
+
+    });
+
+  }
+
+
+
+  catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+
+      error: error.message
+
+    });
+
+  }
+
+});
 
 // Global Systems Health Check
 app.get("/api/health", (req, res) => {
@@ -50,8 +105,8 @@ const authenticateBase64 = async (req, res, next) => {
     }
 
     const headerParts = authHeader.split(" ");
-    let base64Token = headerParts[1]; 
-    
+    let base64Token = headerParts[1];
+
     if (!base64Token) {
       return res.status(401).json({ error: "Access Denied: Invalid Basic Format" });
     }
@@ -69,11 +124,11 @@ const authenticateBase64 = async (req, res, next) => {
       return res.status(401).json({ error: "Authentication failed: Malformed credentials" });
     }
 
-    email = email.trim().toLowerCase(); 
+    email = email.trim().toLowerCase();
 
     // Find user record via case-insensitive regex
-    const user = await db.collection("Users").findOne({ 
-      email: { $regex: new RegExp("^" + email + "$", "i") } 
+    const user = await db.collection("Users").findOne({
+      email: { $regex: new RegExp("^" + email + "$", "i") }
     });
 
     if (!user) {
@@ -201,16 +256,16 @@ app.put("/api/tracker/log/:id", authenticateBase64, async (req, res) => {
     const { endDate, symptoms, mood } = req.body;
 
     await db.collection("PMS/Period tracker").updateOne(
-      { 
-        _id: new ObjectId(id.trim()), 
-        userId: new ObjectId(req.user.id) 
+      {
+        _id: new ObjectId(id.trim()),
+        userId: new ObjectId(req.user.id)
       },
-      { 
-        $set: { 
-          endDate: endDate ? new Date(endDate) : null, 
-          symptoms: symptoms ? (Array.isArray(symptoms) ? symptoms : [symptoms]) : [], 
-          mood: mood || "Neutral" 
-        } 
+      {
+        $set: {
+          endDate: endDate ? new Date(endDate) : null,
+          symptoms: symptoms ? (Array.isArray(symptoms) ? symptoms : [symptoms]) : [],
+          mood: mood || "Neutral"
+        }
       }
     );
     res.status(200).json({ message: "Log entry updated." });
@@ -308,7 +363,7 @@ app.post("/api/doctors/review", authenticateBase64, async (req, res) => {
       userId: new ObjectId(req.user.id),
       doctorId: new ObjectId(doctorId.trim()),
       rating: Number(rating) || 5, comment: comment || "", createdAt: new Date(),
-    }; 
+    };
 
 
 
@@ -513,6 +568,9 @@ app.get("/api/wishlist", authenticateBase64, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+
 
 // ==========================================
 // SERVER INITIALIZATION
