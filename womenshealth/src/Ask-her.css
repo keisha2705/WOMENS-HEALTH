@@ -1,0 +1,260 @@
+:root {
+  /* Premium Luxury Brand Colors */
+  --chat-bg: #FDF9F9;             /* Soft off-white blush canvas background */
+  --text-primary: #3D1A24;        /* Deep luxury maroon/mulberry for typographic focal points */
+  --text-body: #614E52;           /* Muted warm charcoal-brown body text */
+  --text-muted: #8E797D;          /* Sophisticated tone for subtitles and icons */
+  --input-border: #EFE3E5;        /* Ultra-fine hairline border separator */
+  --navbar-height: 90px;          /* Clean structural offset safety barrier */
+  
+  /* Classy, deep tones for suggestion buttons */
+  --bubble-gradient: linear-gradient(135deg, #8E2B43 0%, #B84A65 100%);
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Playfair Display', serif;
+}
+
+/* Base Body Expansion */
+.chatpage {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--chat-bg);
+  font-family: var(--font-body);
+  color: var(--text-body);
+  padding-top: var(--navbar-height); 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stretches container across the full screen width */
+.chatpage-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 4rem; /* Wide padding for a modern, open-space layout */
+  box-sizing: border-box;
+}
+
+/* Clean Editorial Page Title Layout */
+.chatpage-header {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+.chatpage-title {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Main Screen Workspace Box */
+.chat-window {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+/* ==========================================================================
+   Sophisticated Spontaneous Grid (Dynamic Spacing Architecture)
+   ========================================================================== */
+.suggestions-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem 2rem; /* Wide separation rules create an open breathing environment */
+  width: 100%;
+  max-width: 85rem; /* Expanded to capture ultra-wide desktop monitors */
+  margin: 0 auto;
+}
+
+/* High-end Suggestion Pill Blocks */
+.suggestion-chip {
+  background: var(--bubble-gradient);
+  color: #FFFFFF;
+  border: none;
+  padding: 1.5rem 2.5rem; /* Generous padding padding padding looks high-end */
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(142, 43, 67, 0.05);
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease;
+  text-align: center;
+  
+  /* Creates spontaneous alternating sizing weights naturally across screens */
+  flex: 1 1 calc(45% - 2rem); 
+  min-width: 20rem;
+  max-width: calc(50% - 1rem);
+}
+
+/* Alternating sizing structure makes the elements wrap organically */
+.suggestion-chip:nth-child(odd) {
+  max-width: 55%;
+}
+
+.suggestion-chip:nth-child(3n) {
+  max-width: 40%;
+}
+
+.suggestion-chip:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(142, 43, 67, 0.12);
+}
+
+/* ==========================================================================
+   Full Width Chat Active Stream
+   ========================================================================== */
+.message-stream {
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-self: center;
+}
+
+.message-bubble {
+  max-width: 65%;
+  padding: 1.25rem 1.75rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.message-bubble.user {
+  background: var(--bubble-gradient);
+  color: #FFFFFF;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.message-bubble.ai {
+  background: #FFFFFF;
+  color: var(--text-primary);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--input-border);
+  box-shadow: 0 4px 20px rgba(61, 26, 36, 0.02);
+}
+
+/* ==========================================================================
+   Anchored Bottom Control Row
+   ========================================================================== */
+.chat-input-form {
+  width: 100%;
+  max-width: 70rem; /* Stretches wider to balance the wide-screen look */
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid var(--input-border);
+  border-radius: 9999px;
+  padding: 0.9rem 2.25rem; /* Modern sleek text input sizing metrics */
+  gap: 1.25rem;
+  box-shadow: 0 12px 40px rgba(61, 26, 36, 0.03);
+}
+
+.input-wrapper input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.input-wrapper input:focus {
+  outline: none;
+}
+
+.input-wrapper input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-icon, .submit-microphone {
+  font-size: 1.35rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-microphone {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.submit-microphone:hover {
+  color: var(--text-primary);
+  transform: scale(1.05);
+}
+
+/* Style refinements inside the parsed AI text bubble */
+.markdown-content p {
+  margin: 0 0 0.75rem 0;
+  line-height: 1.6;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0; /* Prevents awkward white space at the bottom of a bubble */
+}
+
+.markdown-content strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.markdown-content ul, .markdown-content ol {
+  margin: 0.5rem 0 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.35rem;
+  line-height: 1.5;
+}
+
+/* Subtle editorial titles if the AI generates markdown headings */
+.markdown-content h1, 
+.markdown-content h2, 
+.markdown-content h3 {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.markdown-content h3 {
+  font-size: 1.15rem;
+}
+
+/* Animated thinking indicator fallback styles */
+.loading-dots {
+  color: var(--text-muted);
+  font-style: italic;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}

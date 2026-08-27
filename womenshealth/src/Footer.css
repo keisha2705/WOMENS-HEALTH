@@ -1,0 +1,99 @@
+.app-footer {
+  background-color: #8e2b43;
+  color: #ffffff;
+  padding: 3rem 1.5rem 1.5rem 1.5rem;
+  font-family: inherit;
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #ffeef4; 
+}
+
+.brand-info .footer-logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: #ffffff;
+}
+
+.brand-info .footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #fce4ec;
+  max-width: 300px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  font-size: 0.95rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+  color: #fce4ec;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-links li:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.footer-contact p {
+  font-size: 0.9rem;
+  color: #fce4ec;
+  margin-bottom: 0.5rem;
+}
+
+.footer-email {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-bottom: 1px dashed #ffffff;
+  display: inline-block;
+}
+
+.footer-email:hover {
+  color: #ffeef4;
+  border-bottom-style: solid;
+}
+
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #fce4ec;
+}
+
+@media (max-width: 768px) {
+  .app-footer {
+    padding: 2.5rem 1rem 1rem 1rem;
+  }
+  .footer-container {
+    gap: 1.5rem;
+  }
+}
