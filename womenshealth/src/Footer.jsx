@@ -18,7 +18,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Quick Navigation Links */}
         <div className="footer-section footer-links">
           <h3>Quick Links</h3>
           <ul>
@@ -29,7 +28,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Feature Areas Links */}
+  
         <div className="footer-section footer-links">
           <h3>Features</h3>
           <ul>
@@ -39,7 +38,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Contact/Support Info */}
+     
         <div className="footer-section footer-contact">
           <h3>Support Center</h3>
           <p>Need assistance with your account?</p>
@@ -50,9 +49,8 @@ export default function Footer() {
 
       </div>
 
-      {/* Underline Copyright Banner */}
       <div className="footer-bottom">
-        <p>&copy; {currentYear} Women's Health Project. All rights reserved.</p>
+        <p>&copy; 2026 Women's Health Project. All rights reserved.</p>
       </div>
     </footer>
   );

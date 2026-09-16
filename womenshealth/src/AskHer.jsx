@@ -4,7 +4,6 @@ import Navbar from "./Navbar";
 
 export default function ChatPage() {
 
-  // Ensure it matches your ProtectedRoute variables perfectly:
 const savedToken = localStorage.getItem("authToken");
 const savedRole = localStorage.getItem("userRole");
 

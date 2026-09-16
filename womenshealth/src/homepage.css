@@ -368,7 +368,7 @@
 }
 
 .homepage-cta-button:hover {
-  background-color: var(--accent-hover);
+  cursor: url("/cursor.png"), pointer;
 }
 
 

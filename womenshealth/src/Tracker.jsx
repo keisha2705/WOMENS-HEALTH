@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import "./trackerpage.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Footer from "./Footer.jsx";"./Footer.jsx"
+import Navbar from "./Navbar.jsx"
 
 export default function TrackerPage() {
   // Data structural state configurations
@@ -11,7 +11,7 @@ export default function TrackerPage() {
 
   // User input element tracking triggers
   const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0]
   );
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [selectedMood, setSelectedMood] = useState("Neutral");
@@ -19,11 +19,9 @@ export default function TrackerPage() {
 
   // 1. Helper function to read the token safely across all layout handlers
   const getSecureHeaderToken = () => {
-    // FIXED: Consistently point to 'authToken' across all execution paths
     let storedToken =
       localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
 
-    // Fallback block if the variable object keys are empty or map to literal strings
     if (!storedToken || storedToken === "null" || storedToken === "undefined") {
       return null;
     }
@@ -56,6 +54,7 @@ export default function TrackerPage() {
 
       if (!activeToken) {
         console.warn("No active authorization token found in storage.");
+        setLogs([]); // Initialize with empty array cleanly
         setLoading(false);
         return;
       }
@@ -68,14 +67,22 @@ export default function TrackerPage() {
             "Content-Type": "application/json",
           },
         });
-        if (!res.ok)
-          throw new Error(
-            "Could not pull logs from endpoint tracking database.",
-          );
+        
+        if (!res.ok) {
+          throw new Error("Could not pull logs from endpoint tracking database.");
+        }
+        
         const data = await res.json();
-        setLogs(data);
+        
+        // Safety check to ensure logs state is always a manageable array list
+        if (data && Array.isArray(data)) {
+          setLogs(data);
+        } else {
+          setLogs([]);
+        }
       } catch (err) {
         console.error("Initial load log read error:", err);
+        setLogs([]); // Prevent empty server exceptions from breaking component states
       } finally {
         setLoading(false);
       }
@@ -83,161 +90,124 @@ export default function TrackerPage() {
     fetchTrackerLogs();
   }, []);
 
-  // 3. SUBMIT PERIOD AND SYMPTOM METRICS
+  // Submit log
   const handleSaveLogEntry = async (e) => {
     e.preventDefault();
     if (!startDate) return alert("Please select a valid onset date.");
-
-    const activeToken = getSecureHeaderToken();
-    if (!activeToken) {
-      return alert(
-        "Authentication session has expired. Please log out and sign back into your account profile.",
-      );
-    }
-
     setSubmitting(true);
 
+    let storedToken = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+
     try {
+      // 💡 CONNECTED TO BACKEND: POST /api/tracker/log
       const res = await fetch("http://localhost:3000/api/tracker/log", {
         method: "POST",
         headers: {
-          Authorization: activeToken, // FIXED: Sends the verified token structure cleanly
-          "Content-Type": "application/json",
+          // 🛠️ FIXED: Securely attaches the Basic Auth wrapper your server requires to accept the write
+          "Authorization": `Basic ${storedToken}`, 
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           startDate: startDate,
           symptoms: selectedSymptoms,
           mood: selectedMood,
-        }),
+          cycleLength: cycleLength // Keeps your custom threshold synchronized
+        })
       });
 
       if (!res.ok) {
-        throw new Error(
-          `Server returned status code parameters: ${res.status}`,
-        );
+        throw new Error(`Server returned status code: ${res.status}`);
       }
-
+      
       const responseData = await res.json();
-      alert(responseData.message || "Metrics logged successfully!");
-      window.location.reload();
+      alert(responseData.message || "Metrics logged successfully to MongoDB!");
+      window.location.reload(); 
+      
     } catch (err) {
       console.error("Auth Failure Debug:", err);
-      alert(
-        `Connection Failed: ${err.message}. Your login credentials could not be verified by the middleware.`,
-      );
+      alert(`Connection Failed: ${err.message}. Your login token is unauthorized.`);
     } finally {
       setSubmitting(false);
     }
   };
 
-  // ... keep the rest of your toggle handlers, calculations, and return JSX layout identically below ...
-  // Cycle calculations
-  const cycleData = useMemo(() => {
-    if (!logs || logs.length === 0) {
-      return {
-        currentCycleDay: 1,
-        daysUntilNextPeriod: 28,
-        daysUntilPMS: 24,
-        pmsStatus: "Low Risk",
-        currentPhase: "Follicular Phase",
-        formattedNextPeriod: "Pending Log Data",
-      };
-    }
+const cycleData = useMemo(() => {
+  // 1. FIXED: Determine the clean base date source
+  let baseStartDate = new Date(startDate); // Read directly from your input date picker state by default
 
+  // 2. If a database log history *does* exist, read the most recent entry from the array instead
+  if (logs && Array.isArray(logs) && logs.length > 0) {
     const latestLog = logs[0];
-
-    const start = new Date(latestLog.startDate);
-    const today = new Date();
-
-    start.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    const diffTime = today.getTime() - start.getTime();
-
-    const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    const currentCycleDay =
-      (((daysSinceStart % cycleLength) + cycleLength) % cycleLength) + 1;
-
-    const nextPeriodStart = new Date(start);
-
-    const completedCycles =
-      Math.floor(daysSinceStart / cycleLength) + (daysSinceStart >= 0 ? 1 : 0);
-
-    nextPeriodStart.setDate(start.getDate() + completedCycles * cycleLength);
-
-    const daysUntilNextPeriod = Math.ceil(
-      (nextPeriodStart.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    const pmsStartDay = cycleLength - 4;
-
-    let daysUntilPMS = 0;
-    let pmsStatus = "Low Risk";
-
-    if (currentCycleDay >= pmsStartDay) {
-      pmsStatus = "Active Phase";
-      daysUntilPMS = 0;
-    } else {
-      daysUntilPMS = pmsStartDay - currentCycleDay + 1;
-
-      pmsStatus = daysUntilPMS <= 3 ? "Approaching" : "Low Risk";
+    if (latestLog && latestLog.startDate) {
+      baseStartDate = new Date(latestLog.startDate);
     }
-
-    let currentPhase = "Follicular Phase";
-
-    if (currentCycleDay <= 5) {
-      currentPhase = "Menstruation";
-    } else if (currentCycleDay <= 13) {
-      currentPhase = "Follicular Phase";
-    } else if (currentCycleDay <= 16) {
-      currentPhase = "Ovulation";
-    } else {
-      currentPhase = "Luteal Phase";
-    }
-
-    const options = {
-      month: "short",
-      day: "numeric",
-    };
-
-    const formattedNextPeriod = nextPeriodStart.toLocaleDateString(
-      "en-US",
-      options,
-    );
-
-    return {
-      currentCycleDay,
-      daysUntilNextPeriod,
-      daysUntilPMS,
-      pmsStatus,
-      currentPhase,
-      formattedNextPeriod,
-    };
-  }, [logs, cycleLength]);
-
-  // Toggle symptoms
-  const toggleSymptom = (symptom) => {
-    setSelectedSymptoms((prev) =>
-      prev.includes(symptom)
-        ? prev.filter((s) => s !== symptom)
-        : [...prev, symptom],
-    );
-  };
-
-  if (loading) {
-    return (
-      <div
-        className="trackerpage"
-        style={{
-          padding: "4rem",
-          textAlign: "center",
-        }}
-      >
-        Reading your secure medical logs...
-      </div>
-    );
   }
+
+  // 3. Safety validation check if the target dates parse incorrectly
+  if (isNaN(baseStartDate.getTime())) {
+    return {
+      currentCycleDay: 1,
+      daysUntilNextPeriod: "—",
+      daysUntilPMS: "—",
+      pmsStatus: "Low Risk",
+      currentPhase: "Follicular Phase",
+      formattedNextPeriod: "Awaiting Log Entries",
+    };
+  }
+
+  const today = new Date();
+  baseStartDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const diffTime = today.getTime() - baseStartDate.getTime();
+  const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  // 4. FIXED: The math engine will now dynamically react to whatever you type in the cycleLength input field
+  const currentCycleDay = ((daysSinceStart % cycleLength) + cycleLength) % cycleLength + 1;
+
+  const nextPeriodStart = new Date(baseStartDate.getTime());
+  const completedCycles = Math.floor(daysSinceStart / cycleLength) + (daysSinceStart >= 0 ? 1 : 0);
+  nextPeriodStart.setDate(baseStartDate.getDate() + (completedCycles * cycleLength));
+
+  const daysUntilNextPeriod = Math.ceil((nextPeriodStart.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+  const pmsStartDay = cycleLength - 4;
+  let daysUntilPMS = 0;
+  let pmsStatus = "Low Risk";
+
+  if (currentCycleDay >= pmsStartDay) {
+    pmsStatus = "Active Phase";
+    daysUntilPMS = 0;
+  } else {
+    daysUntilPMS = pmsStartDay - currentCycleDay + 1;
+    pmsStatus = daysUntilPMS <= 3 ? "Approaching" : "Low Risk";
+  }
+
+  let currentPhase = "Follicular Phase";
+  if (currentCycleDay <= 5) {
+    currentPhase = "Menstruation";
+  } else if (currentCycleDay <= 13) {
+    currentPhase = "Follicular Phase";
+  } else if (currentCycleDay <= 16) {
+    currentPhase = "Ovulation";
+  } else {
+    currentPhase = "Luteal Phase";
+  }
+
+  const options = { month: "short", day: "numeric" };
+  const formattedNextPeriod = nextPeriodStart.toLocaleDateString("en-US", options);
+
+  return {
+    currentCycleDay,
+    daysUntilNextPeriod,
+    daysUntilPMS,
+    pmsStatus,
+    currentPhase,
+    formattedNextPeriod,
+  };
+}, [logs, cycleLength, startDate]); // Added startDate to calculation re-trigger array
+
+
 
   return (
     <main className="trackerpage">
@@ -264,7 +234,7 @@ export default function TrackerPage() {
           </div>
         </header>
 
-        {/* Input form */}
+        {/* Input form */} 
         <section className="cycle-input-card">
           <h2 className="input-card-title">Log Today's Health Metrics</h2>
 
@@ -296,15 +266,15 @@ export default function TrackerPage() {
                 </select>
               </div>
 
-              <div className="input-field-group">
-                <label>Cycle Variation Threshold (Days)</label>
+            <div className="input-field-group">
+  <label>Cycle Variation Threshold (Days)</label>
+  <input 
+    type="number" 
+    value={cycleLength} 
+    onChange={(e) => setCycleLength(Number(e.target.value))} 
+  />
+</div>
 
-                <input
-                  type="number"
-                  value={cycleLength}
-                  onChange={(e) => setCycleLength(Number(e.target.value))}
-                />
-              </div>
             </div>
 
             {/* Symptoms */}
@@ -412,7 +382,6 @@ export default function TrackerPage() {
             <h2 className="section-heading">What to expect in each phase</h2>
 
             <div className="encyclopedia-grid">
-              {/* PHASE 1: MENSTRUATION */}
               <div
                 className="encyclopedia-card"
                 style={{
@@ -450,7 +419,6 @@ export default function TrackerPage() {
                 )}
               </div>
 
-              {/* PHASE 2: FOLLICULAR */}
               <div
                 className="encyclopedia-card"
                 style={{
@@ -528,7 +496,6 @@ export default function TrackerPage() {
                 )}
               </div>
 
-              {/* PHASE 4: LUTEAL */}
               <div
                 className="encyclopedia-card"
                 style={{
@@ -567,22 +534,30 @@ export default function TrackerPage() {
             </div>
           </section>
 
-          {/* Right Column: Semantic Navigation Hyperlinks + Log History */}
           <aside className="navigation-history-sidebar">
             <div className="quick-actions-wrapper">
               <h2 className="section-heading">Quick Actions</h2>
               <div className="navigation-hyperlinks-grid">
                 <a href="/calendar" className="nav-action-hyperlink">
-                 <div className="feature-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-	<path d="M0 0h24v24H0z" fill="none" />
-	<g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-		<path d="M.75 12h3m-3 6h3m-3-12h3m0-5.25H17.5s1.5 0 1.5 1.5v19.5s0 1.5-1.5 1.5H3.75s-1.5 0-1.5-1.5V2.25s0-1.5 1.5-1.5" />
-		<path d="M8.25 5.25h5.25s1.5 0 1.5 1.5V9s0 1.5-1.5 1.5H8.25s-1.5 0-1.5-1.5V6.75s0-1.5 1.5-1.5M19 16.75h2.75a1.5 1.5 0 0 0 1.5-1.5V3.75a1.5 1.5 0 0 0-1.5-1.5H19zM19 7h4.25M19 12h4.25" />
-	</g>
-</svg>
-
-
+                  <div className="feature-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <g
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                      >
+                        <path d="M.75 12h3m-3 6h3m-3-12h3m0-5.25H17.5s1.5 0 1.5 1.5v19.5s0 1.5-1.5 1.5H3.75s-1.5 0-1.5-1.5V2.25s0-1.5 1.5-1.5" />
+                        <path d="M8.25 5.25h5.25s1.5 0 1.5 1.5V9s0 1.5-1.5 1.5H8.25s-1.5 0-1.5-1.5V6.75s0-1.5 1.5-1.5M19 16.75h2.75a1.5 1.5 0 0 0 1.5-1.5V3.75a1.5 1.5 0 0 0-1.5-1.5H19zM19 7h4.25M19 12h4.25" />
+                      </g>
+                    </svg>
                   </div>
                   <span className="link-text-wrapper">
                     <strong>View Calendar</strong>

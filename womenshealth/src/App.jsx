@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { PRODUCT_CATALOG } from "./products";
 
 // Auth & Public Layouts
 import SignIn from "./SignIn.jsx";
@@ -15,6 +16,8 @@ import Footer from "./Footer.jsx";
 import Products from "./Products.jsx";
 import AskHer from "./AskHer.jsx";
 import Calender from "./Calender.jsx";
+import BookingPage from "./BookingPage.jsx";
+import Wishlist from "./Wishlist.jsx";
 
 // Role-Based Guard Component
 function ProtectedRoute({ children, allowedRoles }) {
@@ -103,6 +106,24 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={["user", "doctor"]}>
               <Calender />
+            </ProtectedRoute>
+          }
+        />
+
+         <Route
+          path="/BookingPage"
+          element={
+            <ProtectedRoute allowedRoles={["user", "doctor"]}>
+              <BookingPage />
+            </ProtectedRoute>
+          }
+        />
+
+         <Route
+          path="/wishlist"
+          element={
+            <ProtectedRoute allowedRoles={["user", "doctor"]}>
+              <Wishlist />
             </ProtectedRoute>
           }
         />

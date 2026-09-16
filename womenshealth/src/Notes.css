@@ -1,0 +1,28 @@
+.notes-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+@media (min-width: 768px) {
+  .notes-layout-grid { grid-template-columns: 0.9fr 1.1fr; }
+}
+.note-editor-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: 4px;
+  height: max-content;
+}
+.note-editor-card h3 { font-family: var(--font-display); color: var(--text-primary); margin: 0 0 1.5rem 0; }
+.input-field-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-body); margin-bottom: 0.5rem; }
+.input-field-group input, .input-field-group textarea {
+  width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;
+  background: var(--bg-main); font-family: var(--font-body); box-sizing: border-box; color: var(--text-primary);
+}
+.notes-items-column { display: flex; flex-direction: column; gap: 1.5rem; }
+.note-item-card { padding: 1.5rem; }
+.note-card-actions-row { display: flex; gap: 1rem; margin-top: auto; }
+.note-action-btn { background: transparent; border: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; padding: 0; }
+.note-action-btn.edit { color: var(--accent-deep); }
+.note-action-btn.delete { color: #c62828; }

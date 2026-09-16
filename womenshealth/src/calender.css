@@ -1,0 +1,79 @@
+.calendar-card-frame {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 2.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 10px 25px rgba(61, 26, 36, 0.02);
+}
+.calendar-nav-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.calendar-nav-toolbar h2 {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  margin: 0;
+}
+.calendar-nav-toolbar button {
+  background: transparent;
+  border: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: var(--font-body);
+}
+.calendar-grid-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.calendar-grid-cells {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.day-cell {
+  background: var(--bg-main);
+  aspect-ratio: 1;
+  border-radius: 4px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.phase-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  align-self: center;
+  margin-bottom: 4px;
+}
+/* Phase Color Classes extracting dark pink/crimson accent tones */
+.phase-menstruation { background-color: #fce4ec; border: 1px solid #b83267; }
+.phase-menstruation .phase-indicator-dot { background-color: #b83267; }
+.phase-ovulation { background-color: #e3f2fd; border: 1px solid #1e88e5; }
+.phase-ovulation .phase-indicator-dot { background-color: #1e88e5; }
+.phase-pms { background-color: #f3e5f5; border: 1px solid #8e24aa; }
+.phase-pms .phase-indicator-dot { background-color: #8e24aa; }
+
+.calendar-legend-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+.legend-dot { width: 12px; height: 12px; border-radius: 4px; }
+.color-menstruation { background: #fce4ec; border: 1px solid #b83267; }
+.color-ovulation { background: #e3f2fd; border: 1px solid #1e88e5; }
+.color-pms { background: #f3e5f5; border: 1px solid #8e24aa; }

@@ -9,15 +9,12 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Kept your exact classes: navbar and glass */}
       <nav className="navbar glass">
         
         {/* Logo Element */}
         <div className="logo">
           <img src="/WhImages/lo.png" alt="Logo" className="logo-image" />
         </div>
-
-        {/* Navigation Options Links — Swapped 'a href' for 'Link to' with your exact selectors */}
         <div className="nav-links">
           <Link to="/home">Home</Link>
           <Link to="/calendar">Calendar</Link>
@@ -25,14 +22,12 @@ export default function Navbar() {
           <Link to="/products">Products</Link>
           <Link to="/tracker">Tracker</Link>
           <Link to="/notes">Notes</Link>
+          <Link to="/BookingPage">find a Doctors</Link>
           
-          {/* 🛠️ FIXED: Swapped 'userRole' out for your actual variable 'savedRole' */}
           {savedRole === "doctor" && (
             <Link to="/doctor-dashboard">Dashboard</Link>
           )}
-          
-          <Link to="/landing">About Us</Link>
-          <Link to="/home">User Profile</Link>
+          <Link to="/wishlist">Wishlist</Link>
         </div>
 
       </nav>

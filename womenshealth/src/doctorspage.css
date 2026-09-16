@@ -1,0 +1,572 @@
+@import url('https://googleapis.com');
+
+:root {
+  /* Premium Luxury Brand Colors */
+  --bg-main: #FDF9F9;             /* Soft off-white blush canvas background */
+  --text-primary: #3D1A24;        /* Deep luxury maroon/mulberry for typographic headers */
+  --text-body: #614E52;           /* Muted warm charcoal-brown body text */
+  --text-muted: #8E797D;          /* Sophisticated tone for subtitles and indicators */
+  --accent-deep: #8E2B43;         /* Dominant professional deep wine red button tone */
+  --accent-hover: #6D1E31;        /* Darker maroon shade for hover states */
+  --card-white: #FFFFFF;          /* Crisp clean white background for modules */
+  --border-light: #EFE3E5;        /* Ultra-fine hairline border separation line */
+  
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+}
+
+.doctors-page {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-main);
+  font-family: var(--font-sans);
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+.doctors-fullscreen-container {
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1140px) {
+  .doctors-fullscreen-container {
+    grid-template-columns: 1.2fr 0.8fr; /* Classy asymmetric editorial layout split */
+  }
+}
+
+/* ==========================================================================
+   Left Main Directory Column Spacing
+   ========================================================================== */
+.directory-list-column {
+  background-color: var(--card-white);
+  padding: 4rem 3.5rem;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.canva-title {
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0 0 2rem 0;
+  letter-spacing: -0.01em;
+}
+
+/* Premium Minimalist Search Container Bar */
+.canva-search-container {
+  display: flex;
+  align-items: center;
+  background: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-radius: 4px; /* Crisp uniform corner matching platform variables */
+  padding: 0.85rem 1.5rem;
+  gap: 1rem;
+  max-width: 100%;
+  margin-bottom: 3.5rem;
+}
+
+.canva-search-input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.canva-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-pill-icon, .microphone-pill-icon {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Sophisticated Professional Card Grid Matrix
+   ========================================================================== */
+.canva-doctors-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 680px) {
+  .canva-doctors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Premium Doctor Entry Cards */
+.canva-doctor-card {
+  display: flex;
+  background: var(--card-white);
+  border: 1px solid var(--border-light);
+  border-radius: 4px; /* Removed round bubble shapes for a crisp clinical layout */
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.canva-doctor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(61, 26, 36, 0.03);
+  border-color: var(--text-muted);
+}
+
+.canva-doctor-card.focused-selection {
+  border-color: var(--accent-deep);
+  border-width: 2px;
+  background-color: #FFFDFD;
+}
+
+/* Avatar Box Metrics */
+.canva-card-avatar-box {
+  width: 100px;
+  height: 100px;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-right: 1.25rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border-light);
+}
+
+.canva-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Info Box Systems */
+.canva-card-info-box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.canva-doc-name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.canva-doc-specialty {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0.75rem 0;
+}
+
+/* Meta Data Tags Rows */
+.canva-doc-metadata-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-size: 0.825rem;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Canva Action Button Redesign */
+.canva-card-action-row {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.canva-book-trigger-btn {
+  background-color: var(--accent-deep); /* Swapped playful coral for platform wine red */
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px; /* Crisp functional matching corners */
+  padding: 0.5rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.825rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.canva-book-trigger-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   Right Panel Profile Workspace Detail Columns
+   ========================================================================== */
+.doctor-profile-column {
+  background-color: var(--bg-main);
+  border-left: 1px solid var(--border-light);
+  padding: 4rem 3rem;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.profile-expanded-workspace {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.profile-large-img-box {
+  width: 110px;
+  height: 110px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-light);
+}
+
+.profile-large-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-tagline-status {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.profile-hero-titles h2 {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+  font-weight: 400;
+}
+
+.profile-specialty-subtext {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  margin-bottom: 0.25rem;
+}
+
+.profile-credentials-tag {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.profile-body-divider {
+  height: 1px;
+  background-color: var(--border-light);
+  margin: 2.5rem 0;
+}
+
+.profile-details-section h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-weight: 400;
+  margin: 2rem 0 0.75rem 0;
+}
+
+.profile-details-section h3:first-child {
+  margin-top: 0;
+}
+
+.profile-bio-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Transparency Pricing Cards Row */
+.financial-transparency-card {
+  display: flex;
+  background-color: var(--card-white);
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 1.5rem;
+  gap: 1.25rem;
+  margin: 2.5rem 0;
+}
+
+.transparency-icon {
+  font-size: 1.25rem;
+  color: var(--accent-deep);
+}
+
+.transparency-text h4 {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.transparency-text p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.book-now-primary-btn {
+  width: 100%;
+  background-color: var(--accent-deep);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  padding: 1rem 2rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.book-now-primary-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   Slide-Up Confirmation Booking Modal Sheet
+   ========================================================================== */
+.modal-overlay-shroud {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(61, 26, 36, 0.25); /* Subtle muted overlay shading masking metrics */
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+}
+
+.booking-modal-panel {
+  background: var(--card-white);
+  width: 500px;
+  max-width: 95%;
+  border-radius: 4px; /* Realigned corners to stop balloon layouts */
+  border: 1px solid var(--border-light);
+  box-shadow: 0 20px 50px rgba(61, 26, 36, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-panel-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.75rem 2rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modal-title-wrapper h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+  font-weight: 400;
+}
+
+.modal-title-wrapper p {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  margin: 0;
+}
+
+.close-modal-btn {
+  font-size: 1.75rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 0.5;
+}
+
+.modal-form-transition-box {
+  padding: 2rem;
+}
+
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.modal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-input-group.structural-fullwidth {
+  grid-column: span 2;
+}
+
+.modal-input-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.modal-input-group input, 
+.modal-input-group select, 
+.modal-input-group textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-input-group input:focus,
+.modal-input-group select:focus,
+.modal-input-group textarea:focus {
+    border-color: var(--accent-deep);
+    background-color: #FFFFFF;
+}
+
+.modal-input-group textarea {
+    resize: vertical;
+}
+
+/* Bottom Action Row Modals Alignment fields */
+.modal-action-footer-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-light);
+    padding-top: 1.5rem;
+}
+
+.cancel-modal-btn {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-body);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.cancel-modal-btn:hover {
+    background-color: rgba(61, 26, 36, 0.02);
+}
+
+.confirm-modal-btn {
+    background-color: var(--accent-deep);
+    color: #FFFFFF;
+    border: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.confirm-modal-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.confirm-modal-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.no-results-text {
+    grid-column: span 2;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.modal-input-group input:focus,
+.modal-input-group select:focus,
+.modal-input-group textarea:focus {
+    border-color: var(--accent-deep);
+    background-color: #FFFFFF;
+}
+
+.modal-input-group textarea {
+    resize: vertical;
+}
+
+/* Bottom Action Row Modals Alignment fields */
+.modal-action-footer-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-light);
+    padding-top: 1.5rem;
+}
+
+.cancel-modal-btn {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-body);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.cancel-modal-btn:hover {
+    background-color: rgba(61, 26, 36, 0.02);
+}
+
+.confirm-modal-btn {
+    background-color: var(--accent-deep);
+    color: #FFFFFF;
+    border: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.confirm-modal-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.confirm-modal-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.no-results-text {
+    grid-column: span 2;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 2rem 0;
+}

@@ -32,22 +32,21 @@ const savedRole = localStorage.getItem("userRole");
              
               <div className="hero-actions">
                 <Link to="/products" className="hero-btn-primary">Explore products →</Link>
-                {/* Updated to match your App router layout path */}
-                <Link to="/doctor-dashboard" className="hero-btn-secondary">Find a gynaecologist</Link>
+                <Link to="/BookingPage" className="hero-btn-secondary">Find a gynaecologist</Link>
               </div>
 
            
               <div className="hero-stats">
                 <div className="stat-item">
-                  <span className="stat-number">12</span>
+                  <span className="stat-number"></span>
                   <span className="stat-label">products explained</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-number">6</span>
+                  <span className="stat-number"></span>
                   <span className="stat-label">care categories</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-number">24/7</span>
+                  <span className="stat-number"></span>
                   <span className="stat-label">assistant access</span>
                 </div>
               </div>
@@ -55,7 +54,7 @@ const savedRole = localStorage.getItem("userRole");
 
             <div className="homepage-hero-visual">
               <img 
-                src="/api/placeholder/500/480" 
+                src="/WhImages/wh40.webp" 
                 alt="Menstrual products and wellness flatlay" 
                 className="hero-main-image"
               />
@@ -71,7 +70,7 @@ const savedRole = localStorage.getItem("userRole");
           <h2 className="features-heading">Two ways Vitalis helps you decide</h2>
           
           <div className="features-grid">
-            <Link to="/doctor-dashboard" className="feature-card">
+            <Link to="/BookingPage" className="feature-card">
               <div className="feature-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 448 512">
                   <path d="M0 0h448v512H0z" fill="none" />
@@ -85,7 +84,6 @@ const savedRole = localStorage.getItem("userRole");
               <span className="feature-link-text">Find a doctor →</span>
             </Link>
 
-            {/* Path updated to match your router's "/ask-her" path */}
             <Link to="/ask-her" className="feature-card">
               <div className="feature-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
@@ -104,7 +102,7 @@ const savedRole = localStorage.getItem("userRole");
 
         <div className="homepage-divider" />
 
-        {/* Action Hub & Main Dynamic Layout Links */}
+   
         <section className="homepage-action-hub">
           <div className="homepage-welcome-circle">
             <h2 className="homepage-welcome-title">Welcome Hub</h2>
@@ -185,8 +183,8 @@ const TILES = [
   },
   { 
     label: "Fertility Tracking", 
-    imgSrc: "/WhImages/wh24.jpg", 
-    href: "/calendar", 
+    imgSrc: "/pms.jpg", 
+    href: "/tracker", 
     desc: "Basal body temperature guides and cycle prediction charts." 
   }
 ];

@@ -36,13 +36,8 @@ export default function SignIn() {
 
       // 1. Save credentials to storage
       localStorage.setItem("authToken", data.token);
-      
-      // 💡 THE CRITICAL CHECK: Use data.user?.role (with the question mark)
-      // Your backend structure wraps user properties inside a nested "user" object block!
       const userRole = data.user?.role || "user"; 
       localStorage.setItem("userRole", userRole);
-
-      // 2. Clear state locks and route based on the payload role
       if (userRole === "doctor") {
         navigate("/doctor-dashboard");
       } else {
@@ -50,7 +45,6 @@ export default function SignIn() {
       }
 
     } catch (err) {
-      // 💡 If something breaks, render it visually to the user profile screen box banner 
       setError(err.message || "An unexpected error occurred during login.");
     } finally {
       setIsLoading(false);
@@ -59,70 +53,109 @@ export default function SignIn() {
 
 
 
-  return (
-    <div className="auth-wrapper">
-      <main className="auth-card">
-        <header className="auth-logo-area">
-          <h1 className="brand-name">Women's Health</h1>
-          <p className="brand-subtitle">Log in to track your personal wellness journey</p>
-        </header>
+   return (
+    <div className="auth-fullscreen-container">
+      
+      <section className="auth-form-column">
+        <div className="auth-form-workspace">
+          
+          <header className="auth-logo-area">
+            <h1 className="brand-name">Women's Health</h1>
+            <p className="brand-subtitle">Log in to track your personal wellness journey</p>
+          </header>
 
-        {error && (
-          <div className="server-banner error" role="alert">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="server-banner error" role="alert">
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-transition-container">
-            <div className="input-group">
-              <label htmlFor="login-email">Email Address</label>
-              <div className="input-field-wrapper">
-                <input
-                  id="login-email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+          <form onSubmit={handleSubmit}>
+            <div className="form-transition-container">
+              <div className="input-group">
+                <label htmlFor="login-email">Email Address</label>
+                <div className="input-field-wrapper">
+                  <input
+                    id="login-email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="login-password">Password</label>
+                <div className="input-field-wrapper">
+                  <input
+                    id="login-password"
+                    type="password"
+                    placeholder="Enter your security password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="input-group">
-              <label htmlFor="login-password">Password</label>
-              <div className="input-field-wrapper">
-                <input
-                  id="login-password"
-                  type="password"
-                  placeholder="Enter your security password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
+            <button type="submit" className="primary-auth-btn" disabled={isLoading}>
+              {isLoading ? "Signing In..." : "Log In"}
+            </button>
+
+            <footer className="auth-card-footer">
+              <p>
+                Don't have an account?{" "}
+                <button 
+                  type="button" 
+                  onClick={() => navigate("/signup")} 
+                  className="subview-toggle-link"
+                >
+                  Create Account
+                </button>
+              </p>
+            </footer>
+          </form>
+          
+        </div>
+      </section>
+
+      <section className="auth-editorial-column">
+        <div className="editorial-overlay-content">
+          <span className="editorial-tag">Platform Access</span>
+          
+          <h2 className="editorial-heading">
+            Track your cycles with absolute diagnostic clarity.
+          </h2>
+          
+          <p className="editorial-description">
+            Log physical parameters, map symptoms, evaluate reproductive metrics side-by-side, 
+            and synchronize automated calendar events within a secure, high-utility dashboard workspace.
+          </p>
+
+          <div className="editorial-image-box">
+            <img 
+              src="/WhImages/lo.png" 
+              alt="Minimal reproductive cycle metric line chart rendering demonstration" 
+              className="editorial-showcase-img"
+            />
           </div>
 
-          <button type="submit" className="primary-auth-btn" disabled={isLoading}>
-            {isLoading ? "Signing In..." : "Log In"}
-          </button>
+          <div className="editorial-footer-metrics">
+            <div className="auth-stat-node">
+              <strong>100%</strong>
+              <small>private data isolation</small>
+            </div>
+            <div className="auth-stat-node">
+              <strong>28 days</strong>
+              <small>smart cycle tracking loops</small>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <footer className="auth-card-footer">
-            <p>
-              Don't have an account?{" "}
-              {/* Updated to navigate directly to the signup path */}
-              <button 
-                type="button" 
-                onClick={() => navigate("/signup")} 
-                className="subview-toggle-link"
-              >
-                Create Account
-              </button>
-            </p>
-          </footer>
-        </form>
-      </main>
     </div>
   );
 }
