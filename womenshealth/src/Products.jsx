@@ -33,7 +33,7 @@ export default function Products() {
       );
 
       
-      const res = await fetch("http://localhost:3000/api/wishlist/add", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/wishlist/notes`, {
         method: "POST",
         headers: {
           "Authorization": `Basic ${storedToken}`, 

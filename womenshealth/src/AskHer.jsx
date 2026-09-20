@@ -28,7 +28,7 @@ const savedRole = localStorage.getItem("userRole");
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/ask-ai", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/ask-ai`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: messageText }),

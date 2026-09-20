@@ -19,7 +19,7 @@ export default function Wishlist() {
       }
 
       try {
-        const res = await fetch("http://localhost:3000/api/wishlist", {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/wishlist`, {
           method: "GET",
           headers: {
             Authorization: `Basic ${storedToken}`, 
@@ -78,7 +78,7 @@ export default function Wishlist() {
   const handleRemoveFromWishlist = async (productId) => {
     const storedToken = localStorage.getItem("authToken");
     try {
-      const res = await fetch("http://localhost:3000/api/wishlist/remove", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/wishlist/remove`, {
         method: "DELETE", // Hits your exact deletion endpoint route
         headers: {
           Authorization: `Basic ${storedToken}`,
@@ -112,7 +112,7 @@ export default function Wishlist() {
     const userNotes = notesState[productId] || "";
 
     try {
-      const res = await fetch("http://localhost:3000/api/wishlist/notes", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/wishlist/notes`, {
         method: "PUT",
         headers: {
           Authorization: storedToken,
