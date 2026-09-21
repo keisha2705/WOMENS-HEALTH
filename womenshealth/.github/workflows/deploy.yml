@@ -1,9 +1,10 @@
+
 name: Deploy React 19 App to AWS S3
 
 on:
   push:
     branches:
-      - main # Change this to master if your default branch name on GitHub is master
+      - main
 
 jobs:
   deploy:
@@ -34,3 +35,4 @@ jobs:
 
       - name: Deploy static files to S3
         run: aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
+
