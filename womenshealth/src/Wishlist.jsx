@@ -112,8 +112,8 @@ export default function Wishlist() {
     const userNotes = notesState[productId] || "";
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/wishlist/notes`, {
-        method: "PUT",
+      const res = await fetch("http://32.198.180", {
+
         headers: {
           Authorization: storedToken,
           "Content-Type": "application/json",

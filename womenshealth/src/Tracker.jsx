@@ -60,7 +60,8 @@ export default function TrackerPage() {
       }
 
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/tracker/logs`, {
+        const res = await fetch("http://32.198.180", {
+
           method: "GET",
           headers: {
             Authorization: activeToken,

@@ -62,7 +62,8 @@ export default function SignUp() { // Removed prop
       console.log("Form passed validation! Dispatching payload to MongoDB now...", formData);
 
       
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`, {
+      const response = await fetch("http://32.198.180", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

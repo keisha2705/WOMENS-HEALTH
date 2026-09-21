@@ -15,7 +15,8 @@ export default function Calender() {
       
       try {
        
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/tracker/log`, {
+        const res = await fetch("http://32.198.180", {
+
           method: "GET",
           headers: {
             "Authorization": `Basic ${storedToken}`,

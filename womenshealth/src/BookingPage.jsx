@@ -93,7 +93,8 @@ export default function DoctorsPage() {
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings/new`, {
+      const res = await fetch("http://32.198.180", {
+
         method: "POST",
 
         headers: {
